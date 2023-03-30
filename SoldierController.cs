@@ -66,19 +66,10 @@ public class SoldierController : MonoBehaviour
             soldierAnimator.SetBool("isWalking", false);
         }
 
-
-        // Shooting
-        if (Input.GetMouseButtonDown(0))
-            soldierAnimator.SetBool("isShooting", true);
-        else if (Input.GetMouseButtonUp(0))
-            soldierAnimator.SetBool("isShooting", false);
-
         // Reloading
         if (Input.GetKey(KeyCode.R))
         {
             soldierAnimator.SetBool("isReloading", true);
         }
-
-
     }
 }
