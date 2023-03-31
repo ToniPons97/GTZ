@@ -15,11 +15,6 @@ public class Shoot : MonoBehaviour
 
     private Animator soldierAnimator;
 
-
-    [SerializeField]
-    private float coolDown = 0.2f;
-    private float nextFireTime = 0f;
-
     [SerializeField]
     private Sprite flashSprite;
 
@@ -28,7 +23,6 @@ public class Shoot : MonoBehaviour
 
     [SerializeField]
     private float flashTime = 0.3f;
-
 
 
     private void Start()
@@ -42,9 +36,8 @@ public class Shoot : MonoBehaviour
     void Update()
     {
         // Shooting
-        if (Input.GetMouseButtonDown(0) && Time.time > nextFireTime)
+        if (Input.GetMouseButtonDown(0))
         {
-            nextFireTime = Time.time + coolDown;
             soldierAnimator.SetBool("isShooting", true);
         }
         else if (Input.GetMouseButtonUp(0))
