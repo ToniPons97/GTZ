@@ -15,6 +15,22 @@ public class Shoot : MonoBehaviour
 
     private Animator soldierAnimator;
 
+
+    [SerializeField]
+    private float coolDown = 0.2f;
+    private float nextFireTime = 0f;
+
+    [SerializeField]
+    private Sprite flashSprite;
+
+    [SerializeField]
+    private SpriteRenderer flashPointRenderer;
+
+    [SerializeField]
+    private float flashTime = 0.3f;
+
+
+
     private void Start()
     {
         spawnPoint = transform.GetChild(0).transform;
@@ -26,16 +42,30 @@ public class Shoot : MonoBehaviour
     void Update()
     {
         // Shooting
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Time.time > nextFireTime)
+        {
+            nextFireTime = Time.time + coolDown;
             soldierAnimator.SetBool("isShooting", true);
+        }
         else if (Input.GetMouseButtonUp(0))
+        {
             soldierAnimator.SetBool("isShooting", false);  
+        }
     }
 
     public void Fire()
     {
-        GameObject bulletInstance = Instantiate(bullet, spawnPoint.position, spawnPoint.rotation);
+        GameObject bulletInstance =
+            Instantiate(bullet, spawnPoint.position, spawnPoint.rotation);
+
         Rigidbody2D rb2D = bulletInstance.GetComponent<Rigidbody2D>();
-        rb2D.AddForce(spawnPoint.up * bulletForce, ForceMode2D.Impulse);
+        rb2D.AddForce(-spawnPoint.right * bulletForce, ForceMode2D.Impulse);
+    }
+
+    public IEnumerator DoFlash()
+    {
+        flashPointRenderer.enabled = true;
+        yield return new WaitForSeconds(flashTime);
+        flashPointRenderer.enabled = false;
     }
 }
